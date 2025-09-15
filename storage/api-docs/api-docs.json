@@ -1,0 +1,177 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Actor Information API",
+        "description": "A comprehensive API for managing actor information submissions with AI-powered data extraction",
+        "contact": {
+            "name": "Faisal Aali",
+            "email": "faz.ali.bhamani@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Development Server"
+        }
+    ],
+    "paths": {
+        "/actors/form": {
+            "get": {
+                "tags": [
+                    "Actors"
+                ],
+                "summary": "Display actor submission form",
+                "description": "Returns the HTML form for submitting actor information",
+                "operationId": "9f5708bab3c97c8ff0b44ba2454f61ba",
+                "responses": {
+                    "200": {
+                        "description": "Form displayed successfully",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/actors": {
+            "post": {
+                "tags": [
+                    "Actors"
+                ],
+                "summary": "Submit actor information",
+                "description": "Processes actor information submission with AI-powered data extraction",
+                "operationId": "1fa2d7dc5ea77254071e874854ce7638",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Unique email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john.doe@example.com"
+                                    },
+                                    "description": {
+                                        "description": "Detailed actor description including name and address",
+                                        "type": "string",
+                                        "example": "John Doe is a 30-year-old male actor from 123 Main Street, New York. He is 6 feet tall and weighs 180 pounds."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redirect to submissions page on success",
+                        "headers": {
+                            "Location": {
+                                "description": "Redirect URL",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error during AI processing"
+                    }
+                }
+            }
+        },
+        "/actors/submissions": {
+            "get": {
+                "tags": [
+                    "Actors"
+                ],
+                "summary": "Display actor submissions",
+                "description": "Returns a table view of all submitted actor information",
+                "operationId": "957038db5f3c38b48590d87a92bcbc53",
+                "responses": {
+                    "200": {
+                        "description": "Submissions displayed successfully",
+                        "content": {
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/actors/prompt-validation": {
+            "get": {
+                "tags": [
+                    "Validation"
+                ],
+                "summary": "API prompt validation endpoint",
+                "description": "Returns a simple JSON response for API validation",
+                "operationId": "fd2385853d2056d78e3d9bf3beb4113a",
+                "responses": {
+                    "200": {
+                        "description": "Validation successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "text_prompt"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Actors",
+            "description": "Actor information management endpoints"
+        },
+        {
+            "name": "Validation",
+            "description": "API validation and health check endpoints"
+        }
+    ]
+}
